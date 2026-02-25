@@ -15,14 +15,14 @@ channel = connection.channel()
 # channel.queue_declare(queue="letterbox")
 
 # here fanout exchange type is being created with name pubsub.
-channel.exchange_declare(exchange="pubsub", exchange_type=ExchangeType.fanout)
+channel.exchange_declare(exchange="routing", exchange_type=ExchangeType.direct)
 
 # since this is fanout pattern, so message will be sent to all the subscribed queue using binding
 # using binding to identify which service is consuming message and message will be sent to exchange instead of queue
-message = "Hello I want to broadcast this message"
+message = "this message is to be routed"
 
 # removed the routing_key value means queue.
-channel.basic_publish(exchange="pubsub", routing_key="", body=message)
+channel.basic_publish(exchange="routing", routing_key="both", body=message)
 
 print(f"sent message: {message}")
 
